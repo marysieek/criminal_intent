@@ -26,6 +26,8 @@ public class CrimeListFragment extends Fragment {
                 .findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        updateUI();
+
         return view;
     }
 
