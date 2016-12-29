@@ -17,6 +17,14 @@ public class CrimeListFragment extends Fragment {
 
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private int savedPosition;
+    private static final String SAVED_POSITION = "pl.korlotian.criminalintent.saved_position";
+
+    @Override
+    public void onSaveInstanceState(Bundle onSavedInstanceState) {
+        super.onSaveInstanceState(onSavedInstanceState);
+        onSavedInstanceState.putSerializable(SAVED_POSITION, savedPosition);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,11 +35,14 @@ public class CrimeListFragment extends Fragment {
                 .findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        if (savedInstanceState != null) {
+            savedPosition = savedInstanceState.getInt(SAVED_POSITION);
+        }
+
         updateUI();
 
         return view;
     }
-
 
     @Override
     public void onResume() {
@@ -47,7 +58,7 @@ public class CrimeListFragment extends Fragment {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemChanged(savedPosition);
         }
     }
 
@@ -78,6 +89,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            savedPosition = getAdapterPosition();
             Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
             startActivity(intent);
         }
