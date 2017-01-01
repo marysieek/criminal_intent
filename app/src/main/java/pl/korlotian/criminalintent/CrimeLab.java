@@ -62,7 +62,7 @@ public class CrimeLab {
         return values;
     }
 
-    private Cursor queryCrimes(String whereClause, String[] whereArgs) {
+    private CrimeCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 CrimeTable.NAME,
                 null,
@@ -73,6 +73,6 @@ public class CrimeLab {
                 null
         );
 
-        return cursor;
+        return new CrimeCursorWrapper(cursor);
     }
 }
