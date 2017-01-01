@@ -3,6 +3,9 @@ package pl.korlotian.criminalintent;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
+import java.util.Date;
+import java.util.UUID;
+
 import pl.korlotian.criminalintent.CrimeDbSchema.CrimeTable;
 
 public class CrimeCursorWrapper extends CursorWrapper {
@@ -16,6 +19,11 @@ public class CrimeCursorWrapper extends CursorWrapper {
         long date = getLong(getColumnIndex(CrimeTable.Cols.DATE));
         int isSolved = getInt(getColumnIndex(CrimeTable.Cols.SOLVED));
 
-        return null;
+        Crime crime = new Crime(UUID.fromString(uuidString));
+        crime.setTitle(title);
+        crime.setDate(new Date(date));
+        crime.setSolved(isSolved != 0);
+
+        return crime;
     }
 }
