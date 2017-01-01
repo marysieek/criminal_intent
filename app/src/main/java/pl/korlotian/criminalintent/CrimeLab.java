@@ -1,11 +1,14 @@
 package pl.korlotian.criminalintent;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import pl.korlotian.criminalintent.CrimeDbSchema.CrimeTable;
 
 public class CrimeLab {
     private static CrimeLab sCrimeLab;
@@ -35,5 +38,15 @@ public class CrimeLab {
 
     public Crime getCrime(UUID id) {
         return null;
+    }
+
+    private ContentValues getContentValues(Crime crime) {
+        ContentValues values = new ContentValues();
+        values.put(CrimeTable.Cols.UUID, crime.getId().toString());
+        values.put(CrimeTable.Cols.TITLE, crime.getId().toString());
+        values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
+        values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
+
+        return values;
     }
 }
